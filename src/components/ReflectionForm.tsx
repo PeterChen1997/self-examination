@@ -49,6 +49,7 @@ interface ReflectionFormProps {
 export default function ReflectionForm({ initialData }: ReflectionFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openDatePicker, setOpenDatePicker] = useState(false);
 
   // 使用react-hook-form
   const form = useForm<ReflectionFormValues>({
@@ -65,14 +66,17 @@ export default function ReflectionForm({ initialData }: ReflectionFormProps) {
     setIsSubmitting(true);
 
     try {
-      let url = "/api/reflections";
-      // 如果有ID，直接使用ID更新
+      let url = "/api/reflections/new";
+      let method = "POST";
+
+      // 如果有ID，则使用PUT方法更新
       if (initialData?.id) {
         url = `/api/reflections/${initialData.id}`;
+        method = "PUT";
       }
 
       const response = await fetch(url, {
-        method: "POST",
+        method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -115,7 +119,7 @@ export default function ReflectionForm({ initialData }: ReflectionFormProps) {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>日期</FormLabel>
-              <Popover>
+              <Popover open={openDatePicker} onOpenChange={setOpenDatePicker}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -138,7 +142,10 @@ export default function ReflectionForm({ initialData }: ReflectionFormProps) {
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={(date) => {
+                      field.onChange(date);
+                      setOpenDatePicker(false);
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
