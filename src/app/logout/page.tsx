@@ -55,16 +55,18 @@ function LogoutButton() {
       const baseUrl = window.location.origin;
       const callbackUrl = `${baseUrl}/`;
 
-      // 使用绝对URL作为回调
+      // 直接使用signOut并允许其默认行为处理重定向
       await signOut({
         callbackUrl,
-        redirect: false,
       });
 
-      // 手动处理重定向
+      // 注意：移除了redirect: false参数和手动重定向逻辑
+      // 如果默认重定向失败，添加备用重定向
       setTimeout(() => {
-        window.location.href = callbackUrl;
-      }, 500);
+        if (window.location.pathname !== "/") {
+          window.location.href = callbackUrl;
+        }
+      }, 1000);
     } catch (error) {
       console.error("退出登录失败:", error);
       // 出错时也跳转到首页
