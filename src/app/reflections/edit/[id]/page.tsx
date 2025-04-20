@@ -7,7 +7,7 @@ import ReflectionForm from "@/components/ReflectionForm";
 export default async function EditReflectionPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const session = await getServerSession(authOptions);
 
@@ -17,7 +17,7 @@ export default async function EditReflectionPage({
   }
 
   // 获取ID参数
-  const { id } = params;
+  const { id } = await params;
 
   // 查询指定ID的反思
   const reflection = await prisma.reflection.findUnique({

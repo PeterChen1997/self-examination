@@ -4,7 +4,6 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
-import { NextTopLoader } from "@/components/NextTopLoader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,8 +25,12 @@ export default function RootLayout({
           inter.className
         )}
       >
+        <script
+          defer
+          src="https://a.peterchen97.cn/script.js"
+          data-website-id="93d3e61d-54e8-4054-93ba-d395b3518344"
+        ></script>
         <Providers>
-          <NextTopLoader />
           <div className="relative flex min-h-screen flex-col">
             <Navbar />
             <main className="flex-1 w-full flex items-center justify-center">

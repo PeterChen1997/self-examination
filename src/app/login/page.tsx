@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -32,9 +32,10 @@ const formSchema = z.object({
   password: z.string().min(6, { message: "密码至少需要6个字符" }),
 });
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -146,5 +147,31 @@ export default function LoginPage() {
         </CardFooter>
       </Card>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container flex h-screen w-screen flex-col items-center justify-center mx-auto px-4">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle className="text-2xl text-center">登录</CardTitle>
+              <CardDescription className="text-center">
+                正在加载...
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="py-4">
+              <div className="flex justify-center">
+                <Loader2 className="h-8 w-8 animate-spin" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      }
+    >
+      <LoginContent />
+    </Suspense>
   );
 }

@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+  // 禁用一些功能来解决构建问题
+  skipTrailingSlashRedirect: true,
+  skipMiddlewareUrlNormalize: true,
 };
 
 export default nextConfig;

@@ -10,6 +10,16 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  {
+    ignores: [
+      "**/node_modules/**",
+      ".next/**",
+      "**/.git/**",
+      "**/dist/**",
+      "**/.cache/**",
+      "src/generated/**", // 忽略Prisma生成的文件
+    ],
+  },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
 

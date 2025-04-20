@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,8 @@ type Reflection = {
   userId: string;
 };
 
-export default function ProfilePage() {
+// 拆分使用了路由功能的组件
+function ProfileContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [reflections, setReflections] = useState<Reflection[]>([]);
@@ -129,5 +130,19 @@ export default function ProfilePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-[calc(100vh-4rem)] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      }
+    >
+      <ProfileContent />
+    </Suspense>
   );
 }

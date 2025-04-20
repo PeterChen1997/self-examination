@@ -13,7 +13,10 @@ const reflectionSchema = z.object({
 });
 
 // 根据ID获取单个反思
-export async function GET(req: Request, context: { params: { id: string } }) {
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -21,7 +24,7 @@ export async function GET(req: Request, context: { params: { id: string } }) {
       return NextResponse.json({ error: "未授权" }, { status: 401 });
     }
 
-    const { id } = context.params;
+    const { id } = await params;
 
     const reflection = await prisma.reflection.findUnique({
       where: {
@@ -45,7 +48,10 @@ export async function GET(req: Request, context: { params: { id: string } }) {
 }
 
 // 更新反思
-export async function PUT(req: Request, context: { params: { id: string } }) {
+export async function PUT(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -53,7 +59,7 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
       return NextResponse.json({ error: "未授权" }, { status: 401 });
     }
 
-    const { id } = context.params;
+    const { id } = await params;
     const body = await req.json();
     const result = reflectionSchema.safeParse(body);
 
@@ -114,14 +120,17 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
 }
 
 // 为保持向后兼容，继续支持POST请求，但将其重定向到PUT方法
-export async function POST(req: Request, context: { params: { id: string } }) {
-  return PUT(req, context);
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  return PUT(req, { params });
 }
 
 // 删除反思
 export async function DELETE(
   req: Request,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -130,7 +139,7 @@ export async function DELETE(
       return NextResponse.json({ error: "未授权" }, { status: 401 });
     }
 
-    const { id } = context.params;
+    const { id } = await params;
 
     // 先验证该反思是否属于当前用户
     const existingReflection = await prisma.reflection.findUnique({
