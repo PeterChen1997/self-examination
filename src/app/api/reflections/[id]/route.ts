@@ -45,7 +45,7 @@ export async function GET(req: Request, context: { params: { id: string } }) {
 }
 
 // 更新反思
-export async function POST(req: Request, context: { params: { id: string } }) {
+export async function PUT(req: Request, context: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -111,6 +111,11 @@ export async function POST(req: Request, context: { params: { id: string } }) {
       { status: 500 }
     );
   }
+}
+
+// 为保持向后兼容，继续支持POST请求，但将其重定向到PUT方法
+export async function POST(req: Request, context: { params: { id: string } }) {
+  return PUT(req, context);
 }
 
 // 删除反思

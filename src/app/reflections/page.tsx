@@ -41,7 +41,7 @@ export default async function ReflectionsPage() {
     <div className="container px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">我的反思列表</h1>
-        <Link href="/today">
+        <Link href="/reflections/new">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             添加反思
@@ -68,7 +68,7 @@ export default async function ReflectionsPage() {
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
             创建你的第一条反思，开始记录每日成长
           </p>
-          <Link href="/today">
+          <Link href="/reflections/new">
             <Button size="lg">
               <PlusCircle className="mr-2 h-5 w-5" />
               创建第一条反思

@@ -49,7 +49,7 @@ export default function LogoutPage() {
   };
 
   return (
-    <div className="max-w-md w-full mx-auto">
+    <div className="max-w-md w-full mx-auto px-4">
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center">

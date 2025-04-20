@@ -40,9 +40,9 @@ export default function NavbarClient({ session }: { session: Session | null }) {
           {session?.user && (
             <>
               <NavigationMenuItem>
-                <Link href="/today" legacyBehavior passHref>
+                <Link href="/reflections/new" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    今日记录
+                    创建反思
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>

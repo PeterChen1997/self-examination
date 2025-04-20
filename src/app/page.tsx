@@ -42,7 +42,7 @@ export default async function HomePage() {
     return (
       <div className="bg-gradient-to-b from-background to-muted/30">
         {/* Hero Section */}
-        <div className="container max-w-screen-xl mx-auto px-4 py-12 md:py-24">
+        <div className="container max-w-screen-xl mx-auto px-4 py-4">
           <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8">
             <div className="w-full md:w-1/2 space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
@@ -106,7 +106,6 @@ export default async function HomePage() {
 
             <div className="w-full md:w-1/2">
               <div className="relative">
-                <div className="aspect-square rounded-full bg-primary/10 absolute -top-8 -right-8 w-64 h-64 blur-3xl opacity-60" />
                 <div className="rounded-lg overflow-hidden shadow-xl relative">
                   <Image
                     src="/hero.jpg"
@@ -284,7 +283,7 @@ export default async function HomePage() {
             <p className="text-muted-foreground">记录今天的收获和成长</p>
           </CardContent>
           <CardFooter>
-            <Link href="/today" className="w-full">
+            <Link href="/reflections/new" className="w-full">
               <Button size="sm" className="w-full">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 添加今日回顾
@@ -386,7 +385,7 @@ export default async function HomePage() {
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
             通过反思每日学习、行动和助人，你可以更清晰地看到自己的成长轨迹
           </p>
-          <Link href="/today">
+          <Link href="/reflections/new">
             <Button size="lg">
               <PlusCircle className="mr-2 h-5 w-5" />
               创建第一条反思

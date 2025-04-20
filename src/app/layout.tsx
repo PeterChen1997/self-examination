@@ -36,7 +36,7 @@ export default function RootLayout({
             <footer className="border-t py-6 md:py-0">
               <div className="container max-w-screen-xl mx-auto px-4 flex flex-col items-center justify-between gap-4 md:h-14 md:flex-row">
                 <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-                  回顾笔记 &copy; {new Date().getFullYear()} 版权所有
+                  回顾笔记 &copy; {new Date().getFullYear()} Peter Chen
                 </p>
               </div>
             </footer>

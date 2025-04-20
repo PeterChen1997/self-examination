@@ -22,9 +22,9 @@ export default function MobileMenu() {
     ...(session?.user
       ? [
           {
-            href: "/today",
-            label: "今日记录",
-            active: pathname === "/today",
+            href: "/reflections/new",
+            label: "创建反思",
+            active: pathname === "/reflections/new",
           },
           {
             href: "/reflections",

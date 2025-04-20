@@ -52,14 +52,14 @@ export default function StatsPage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="container max-w-4xl py-10">
+      <div className="container max-w-4xl py-10 px-4">
         <h1 className="text-2xl font-bold mb-6">加载中...</h1>
       </div>
     );
   }
 
   return (
-    <div className="container max-w-4xl py-10">
+    <div className="container max-w-4xl py-10 px-4">
       <h1 className="text-2xl font-bold mb-6">我的成长统计</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

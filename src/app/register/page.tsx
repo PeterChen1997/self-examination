@@ -85,7 +85,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center mx-auto">
+    <div className="container flex h-screen w-screen flex-col items-center justify-center mx-auto px-4">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl text-center">注册</CardTitle>
