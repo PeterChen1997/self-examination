@@ -2,37 +2,49 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { LogOut } from "lucide-react";
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2, LogOut } from "lucide-react";
 
 export default function LogoutPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // 取消登出
-  const handleCancel = () => {
-    router.push("/");
-  };
+  // 页面加载时自动登出
+  useEffect(() => {
+    // 如果已经是未登录状态，直接跳转到首页
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, session]);
 
-  // 确认登出
+  // 执行登出
   const handleLogout = async () => {
+    if (isLoggingOut) return;
+
     setIsLoggingOut(true);
 
     try {
-      // 使用 signOut 函数，无需指定 callbackUrl，因为我们已在 authOptions 中配置
-      await signOut({ redirect: true });
+      // 获取当前站点的绝对URL
+      const baseUrl = window.location.origin;
+      const callbackUrl = `${baseUrl}/`;
+
+      // 使用绝对URL作为回调
+      await signOut({
+        callbackUrl,
+        redirect: false,
+      });
+
+      // 手动处理重定向
+      setTimeout(() => {
+        window.location.href = callbackUrl;
+      }, 500);
     } catch (error) {
       console.error("退出登录失败:", error);
-      router.push("/");
+      // 出错时也跳转到首页
+      window.location.href = window.location.origin;
     }
   };
 
@@ -46,31 +58,21 @@ export default function LogoutPage() {
               <span>退出登录</span>
             </div>
           </CardTitle>
-          <CardDescription className="text-center">
-            您确定要退出登录吗？
-          </CardDescription>
         </CardHeader>
-        {/* <CardContent className="flex flex-col gap-4">
-          <p className="text-center text-muted-foreground">
-            退出后需要重新登录才能访问您的个人内容
-          </p>
-        </CardContent> */}
         <CardFooter>
-          <div className="flex w-full gap-4">
-            {/* <Button
-              variant="outline"
-              className="w-full"
-              onClick={handleCancel}
-              disabled={isLoggingOut}
-            >
-              取消
-            </Button> */}
+          <div className="flex w-full">
             <Button
               className="w-full"
               onClick={handleLogout}
               disabled={isLoggingOut}
             >
-              {isLoggingOut ? "退出中..." : "确认退出"}
+              {isLoggingOut ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> 退出中...
+                </>
+              ) : (
+                "确认退出"
+              )}
             </Button>
           </div>
         </CardFooter>
