@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { getServerSession } from "@/auth";
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import ReflectionCard from "@/components/ReflectionCard";
@@ -19,7 +20,7 @@ type Reflection = {
 };
 
 export default async function ReflectionsPage() {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   // 未登录用户重定向到登录页
   if (!session?.user) {

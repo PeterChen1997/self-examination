@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { getServerSession } from "@/auth";
+import { authOptions } from "@/lib/auth";
 import { format } from "date-fns";
 
 export default async function TodayPage() {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   // 未登录用户重定向到登录页
   if (!session?.user) {

@@ -1,14 +1,16 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { getServerSession } from "@/auth";
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/db";
 import ReflectionForm from "@/components/ReflectionForm";
 
 export default async function ReflectionDetailPage({
   params,
 }: {
-  params: { date: string };
+  params: Promise<{ id: string }>;
 }) {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
+  const { id: dateString } = await params;
 
   // 未登录用户重定向到登录页
   if (!session?.user) {
@@ -16,7 +18,7 @@ export default async function ReflectionDetailPage({
   }
 
   // 解析日期
-  const date = new Date(params.date);
+  const date = new Date(dateString);
 
   // 检查日期是否有效
   if (isNaN(date.getTime())) {

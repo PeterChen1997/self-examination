@@ -65,7 +65,13 @@ export default function ReflectionForm({ initialData }: ReflectionFormProps) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/reflections", {
+      let url = "/api/reflections";
+      // 如果有ID，直接使用ID更新
+      if (initialData?.id) {
+        url = `/api/reflections/${initialData.id}`;
+      }
+
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,8 +87,17 @@ export default function ReflectionForm({ initialData }: ReflectionFormProps) {
         throw new Error(error.error || "提交失败");
       }
 
-      toast.success(initialData ? "反思更新成功" : "反思创建成功");
-      router.push("/reflections");
+      toast.success(initialData?.id ? "反思更新成功" : "反思创建成功");
+
+      // 如果在ID编辑页面，则返回到详情页面
+      if (
+        initialData?.id &&
+        window.location.pathname.includes("/reflections/edit/")
+      ) {
+        router.push(`/reflections/view/${initialData.id}`);
+      } else {
+        router.push("/reflections");
+      }
       router.refresh();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "提交过程中出错");
