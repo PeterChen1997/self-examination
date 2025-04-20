@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 自省笔记
 
-## Getting Started
+自省笔记是一个帮助用户每日反思和记录成长的应用，通过回答三个问题来培养持续成长的习惯。
 
-First, run the development server:
+## 核心功能
 
+每天回答三个问题：
+- ✨「我学到了什么新知识？」
+- 💡「我发起了什么有趣的事？」
+- 🤝「我帮助了谁解决了问题？」
+
+## 技术栈
+
+- 前端：Next.js 14, React 19, Tailwind CSS, shadcn/ui
+- 后端：Next.js API Routes
+- 数据库：PostgreSQL (Neon)
+- 认证：NextAuth.js
+
+## 本地开发
+
+1. 克隆仓库
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd self-examination
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 安装依赖
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. 设置环境变量
+创建 `.env` 文件:
+```
+DATABASE_URL="your-neon-postgresql-url"
+NEXTAUTH_SECRET="your-secret-key"
+NEXTAUTH_URL="http://localhost:3000"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. 运行数据库迁移
+```bash
+npx prisma migrate dev
+```
 
-## Learn More
+5. 启动开发服务器
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+6. 打开浏览器访问 [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 功能特点
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 响应式设计，支持PC/移动端
+- 邮箱密码认证
+- 每日反思记录
+- 按类别查看反思历史
+- 可视化成长数据
