@@ -36,7 +36,33 @@ export async function POST(req: Request) {
 
     const parsedDate = new Date(date);
 
-    // 创建新的反思记录（不进行upsert）
+    // 设置为当日的0点
+    const startDate = new Date(parsedDate);
+    startDate.setHours(0, 0, 0, 0);
+
+    // 设置为当日的23:59:59
+    const endDate = new Date(parsedDate);
+    endDate.setHours(23, 59, 59, 999);
+
+    // 查询当天是否已有反思记录
+    const existingReflection = await prisma.reflection.findFirst({
+      where: {
+        userId: session.user.id,
+        date: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    });
+
+    // 如果当天已有记录，则返回已有记录
+    if (existingReflection) {
+      return NextResponse.json(existingReflection, {
+        headers: { "X-Reflection-Exists": "true" },
+      });
+    }
+
+    // 创建新的反思记录
     const reflection = await prisma.reflection.create({
       data: {
         userId: session.user.id,

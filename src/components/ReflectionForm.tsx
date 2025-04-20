@@ -91,17 +91,31 @@ export default function ReflectionForm({ initialData }: ReflectionFormProps) {
         throw new Error(error.error || "提交失败");
       }
 
-      toast.success(initialData?.id ? "反思更新成功" : "反思创建成功");
+      const result = await response.json();
 
-      // 如果在ID编辑页面，则返回到详情页面
-      if (
-        initialData?.id &&
-        window.location.pathname.includes("/reflections/edit/")
-      ) {
-        router.push(`/reflections/view/${initialData.id}`);
+      // 检查是否返回了已存在记录的标志
+      const reflectionExists =
+        response.headers.get("X-Reflection-Exists") === "true";
+
+      if (reflectionExists) {
+        toast.info("当天已有反思记录，已为您打开");
+        // 格式化日期为YYYY-MM-DD格式
+        const dateStr = format(values.date, "yyyy-MM-dd");
+        router.push(`/reflections/${dateStr}`);
       } else {
-        router.push("/reflections");
+        toast.success(initialData?.id ? "反思更新成功" : "反思创建成功");
+
+        // 如果在ID编辑页面，则返回到详情页面
+        if (
+          initialData?.id &&
+          window.location.pathname.includes("/reflections/edit/")
+        ) {
+          router.push(`/reflections/view/${initialData.id}`);
+        } else {
+          router.push("/reflections");
+        }
       }
+
       router.refresh();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "提交过程中出错");
